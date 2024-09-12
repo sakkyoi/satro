@@ -1,0 +1,23 @@
+---
+import { getLocalString } from '../../langs/lang';
+import { getCollection } from 'astro:content';
+import QueryBase from '../../layouts/QueryBase.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('article');
+    const categories = [...new Set(posts.map((post: any) => post.data.categories ?? getLocalString('CATEGORY_UNCATEGORIZED')).flat())];
+    
+	return categories.map((category: unknown) => ({
+		params: { slug: category },
+		props: { path: 'category', item: category },
+	}));
+}
+type Props = {
+    path: string
+    item: string
+};
+
+const { path, item } = Astro.props;
+---
+
+<QueryBase path={ path } item={ item } />

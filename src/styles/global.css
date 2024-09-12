@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply bg-shironeri dark:bg-sumi text-keshizumi dark:!text-shironeri no-underline w-screen;
+}
+
+a {
+	@apply !no-underline;
+}
+
+@layer utilities {
+	.article-kbd {
+		@apply min-h-[30px] inline-flex justify-center items-center py-1 px-1.5 bg-white border border-gray-200 font-mono text-sm text-gray-800 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:shadow-[0px_2px_0px_0px_rgba(255,255,255,0.1)];
+	}
+
+	.article-img {
+		@apply prose-img:w-full;
+	}
+
+	.article-code {
+		@apply before:content-none after:content-none py-1 px-1.5 inline-flex items-center gap-x-1 text-xs bg-gray-100 text-gray-800 rounded-md dark:bg-neutral-500/20 dark:text-neutral-400;
+	}
+
+	.article-blockquote {
+		@apply before:content-none after:content-none prose-p:before:content-none prose-p:after:content-none;
+	}
+
+	.article-link {
+		@apply text-momo dark:text-byakuroku hover:text-usubeni hover:dark:text-wakatake before:content-['_'] after:content-['_'];
+	}
+
+	.article-headings {
+		@apply flex items-center m-0 py-5;
+	}
+}
+
+/* Prose */
+.prose {
+	@apply prose-keshizumi dark:prose-shironeri prose-img:article-img prose-code:article-code prose-blockquote:article-blockquote prose-a:article-link prose-kbd:article-kbd prose-headings:article-headings;
+}
+
+.article-section[depth='1'] {
+	@apply pb-16;
+}
+
+.article-section[depth='2'] {
+	@apply pb-8;
+}
+
+.article-section[depth='3'] {
+	@apply pb-8;
+}
+
+.article-section[depth='4'] {
+	@apply pb-4;
+}
+
+.article-section[depth='5'] {
+	@apply pb-4;
+}
+
+.article-section[depth='6'] {
+	@apply pb-2;
+}

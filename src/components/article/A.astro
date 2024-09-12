@@ -1,0 +1,13 @@
+---
+/**
+ * link-out icon and target="_blank" for external linnk.
+ */
+const props = Astro.props;
+---
+
+<a {...props} target={ !props.href.startsWith("#") ? "_blank" : "" }>
+    <slot />
+    {
+        !props.href.startsWith("#") ? <iconify-icon icon="akar-icons:link-out" class="ml-1">hello</iconify-icon> : null
+    }
+</a>

@@ -1,0 +1,215 @@
+---
+import { getLocalString, locale } from '../langs/lang';
+import { SITE_TITLE } from '../consts';
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import type { Props as Heading } from '../components/TableOfContents.astro';
+
+type Props = CollectionEntry<'article'>['data'] & Heading;
+
+const { title, description, pubDate, updatedDate, categories, tags, headings } = Astro.props;
+const slug = Astro.params.slug;
+---
+
+<Base title={ getLocalString('ARTICLE_PAGE_TITLE').replace('{title}', title).replace('{site_title}', SITE_TITLE) } description={ description }>
+	<Header />
+	<main class="w-full px-[20px] py-10 xl:px-[300px]">
+		<article>
+			<a class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 hover:underline focus:outline-none focus:underline dark:text-blue-500 cursor-pointer" onclick="history.back()">
+				<iconify-icon class="shrink-0" icon="ion:chevron-back" inline></iconify-icon>
+				{ getLocalString('ARTICLE_PAGE_BACK') }
+			</a>
+			<div class="text-2xl font-bold md:text-3xl dark:text-white mt-3">{ title }</div>
+			<div class="flex items-center gap-x-5 mt-5">
+				<div class="flex gap-x-3">
+					{
+						categories ? categories.map((category: string) => (
+							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ `/category/${category}` }>
+								{ category }
+							</a>
+						)) : (
+							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ `/category/${ getLocalString('CATEGORY_UNCATEGORIZED') }` }>
+								{ getLocalString('CATEGORY_UNCATEGORIZED') }
+							</a>
+						)
+					}
+				</div>
+				<p class="text-xs sm:text-sm text-gray-800/80 dark:text-neutral-200/80">
+					<div class="hs-tooltip [--placement:bottom] inline-block">
+						{
+							updatedDate ? (
+								<span class="hs-tooltip-toggle pb-1">
+									{ getLocalString('ARTICLE_UPDATED_AT') } { updatedDate.toLocaleDateString(locale, {
+										year: 'numeric',
+										month: 'short',
+										day: 'numeric',
+									}) }
+								</span>
+
+								<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" role="tooltip">
+									{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
+										year: 'numeric',
+										month: 'short',
+										day: 'numeric',
+									}) }
+								</span>
+							) : (
+								<span>
+									{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
+										year: 'numeric',
+										month: 'short',
+										day: 'numeric',
+									}) }
+								</span>
+							)
+						}
+					</div>
+				</p>
+			</div>
+
+			<div class="flex">
+				<div id="contents" class="prose min-w-full pt-10">
+					<slot />
+				</div>
+				<div class="hidden xl:w-full xl:block">
+					<div class="w-[300px] mb-1 p-2 text-lg text-opacity-40">{ getLocalString('ARTICLE_ON_THIS_PAGE') }</div>
+					<ul class="sticky top-5 w-[300px] pl-5" data-hs-scrollspy="#contents">
+						<TableOfContents headings={headings} />
+					</ul>
+				</div>
+				<div class="xl:hidden">
+					<button type="button" class="-m-8 p-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-keshizumi/70 text-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none sticky top-3 z-[90]" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-offcanvas-body-scrolling" data-hs-overlay="#hs-offcanvas-body-scrolling">
+						<iconify-icon icon="solar:list-bold-duotone"></iconify-icon>
+					</button>
+					
+					<div id="hs-offcanvas-body-scrolling" class="hs-overlay hs-overlay-open:translate-x-0 hidden -translate-x-full fixed top-0 start-0 transition-all duration-300 transform h-full max-w-xs w-full z-[80] bg-shironeri/90 border-e dark:bg-sumi/90 dark:border-neutral-700 [--body-scroll:true] [--overlay-backdrop:false] p-4" role="dialog" tabindex="-1" aria-labelledby="hs-offcanvas-body-scrolling-no-backdrop-label">
+						<div class="mb-1 p-2 text-lg text-opacity-40">{ getLocalString('ARTICLE_ON_THIS_PAGE') }</div>
+						<ul class="pl-5" data-hs-scrollspy="#contents">
+							<TableOfContents headings={ headings } />
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="flex flex-col mt-10 lg:flex-row lg:justify-between lg:items-center gap-y-5 lg:gap-y-0">
+				<!-- Badges/Tags -->
+				<div>
+					{
+						tags?.map((tag: string) => (
+							<a class="m-0.5 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ `/tag/${tag}` }>
+								{ tag }
+							</a>
+						))
+					}
+				</div>
+				<!-- End Badges/Tags -->
+				
+				<div class="flex justify-end gap-x-1.5">
+					<!-- Button -->
+					<div class="hs-dropdown [--auto-close:inside] relative inline-flex">
+						<button id="article-share-dropdown" type="button" class="hs-dropdown-toggle flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+							<iconify-icon class="shrink-0 size-4 flex items-center" icon="mingcute:share-3-line" inline></iconify-icon>
+							{ getLocalString('ARTICLE_SHARE') }
+						</button>
+						<div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mb-1 z-10 bg-gray-900 shadow-md rounded-xl p-2 dark:bg-black" role="menu" aria-orientation="vertical" aria-labelledby="article-share-dropdown">
+							<span class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-400 dark:text-neutral-400">
+								<iconify-icon class="shrink-0 size-4 flex items-center" icon="mingcute:unlink-fill" inline></iconify-icon>
+								{ getLocalString('ARTICLE_SHARE_COPY_LINK') }
+							</span>
+							<div class="border-t border-gray-600 my-2 dark:border-neutral-800"></div>
+							
+							<input type="hidden" id="article-share-clipboard" value={ `${import.meta.env.SITE_URL}/article/${slug}` }>
+
+							<button type="button" class="w-full clipboard [--is-toggle-tooltip:false] hs-tooltip relative py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-mono rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" data-clipboard-target="#article-share-clipboard" data-clipboard-action="copy" data-clipboard-success-text={ getLocalString('ARTICLE_SHARE_COPY_LINK_COPIED') }>
+								<span class="w-56 truncate text-right">{ `${import.meta.env.SITE_URL}/article/${slug}` }</span>
+								<span class="border-s ps-3.5 dark:border-neutral-700">
+									<iconify-icon class="js-clipboard-default size-4 group-hover:rotate-6 transition flex items-center" icon="mingcute:clipboard-line" inline></iconify-icon>
+
+									<iconify-icon class="js-clipboard-success hidden size-4 text-blue-600 rotate-6 items-center" icon="mingcute:check-2-fill" inline></iconify-icon>
+								</span>
+
+								<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700" role="tooltip">
+									<span class="js-clipboard-success-text">{ getLocalString('ARTICLE_SHARE_COPY_LINK_COPY') }</span>
+								</span>
+							</button>
+						</div>
+					</div>
+					<!-- Button -->
+				</div>
+			</div>
+		</article>
+	</main>
+	<Footer />
+</Base>
+
+<script>
+import ClipboardJS from "clipboard";
+import { HSStaticMethods, HSTooltip } from 'preline/preline';
+
+/**
+ * installization of clipboard
+ * code from https://preline.co/docs/clipboard.html#how-to-use
+ */
+(function() {
+	window.addEventListener('load', () => {
+		const $clipboards = document.querySelectorAll('.clipboard');
+
+		$clipboards.forEach((el) => {
+			const isToggleTooltip = HSStaticMethods.getClassProperty(el as HTMLElement, '--is-toggle-tooltip') === 'false' ? false : true;
+			const clipboard = new ClipboardJS(el, {
+				text: (trigger: HTMLElement) => {
+					const clipboardText = trigger.dataset.clipboardText;
+
+					if (clipboardText) return clipboardText;
+
+					const clipboardTarget = trigger.dataset.clipboardTarget!;
+					const $element: HTMLElement = document.querySelector(clipboardTarget)!;
+
+					if ($element.tagName === 'SELECT' || $element.tagName === 'INPUT' || $element.tagName === 'TEXTAREA') {
+						return ($element as HTMLInputElement).value!
+					} else {
+						return $element.textContent!;
+					}
+				}
+			});
+
+			clipboard.on('success', () => {
+				const $default: HTMLElement = el.querySelector('.js-clipboard-default')!;
+				const $success: HTMLElement = el.querySelector('.js-clipboard-success')!;
+				const $successText: HTMLElement = el.querySelector('.js-clipboard-success-text')!;
+				// @ts-ignore
+				const successText: string = el.dataset.clipboardSuccessText || '';
+				const tooltip: HTMLElement = el.closest('.hs-tooltip')!;
+				const $tooltip = HSTooltip.getInstance(tooltip, true);
+
+				let oldSuccessText: string;
+
+				if ($successText) {
+					oldSuccessText = $successText.textContent!;
+					$successText.textContent = successText!;
+				}
+				if ($default && $success) {
+					$default.style.display = 'none';
+					$success.style.display = 'flex';
+				}
+				if (tooltip && isToggleTooltip) HSTooltip.show(tooltip);
+				// @ts-ignore
+				if (tooltip && !isToggleTooltip) $tooltip.element.popperInstance.update();
+
+				setTimeout(function () {
+					if ($successText && oldSuccessText) $successText.textContent = oldSuccessText;
+					if (tooltip && isToggleTooltip) HSTooltip.hide(tooltip);
+					// @ts-ignore
+					if (tooltip && !isToggleTooltip) $tooltip.element.popperInstance.update();
+					if ($default && $success) {
+						$success.style.display = '';
+						$default.style.display = '';
+					}
+				}, 3000);
+			});
+		});
+	})
+})()
+</script>

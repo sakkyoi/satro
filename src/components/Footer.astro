@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+
+const today = new Date();
+
+const links = await getCollection('footer');
+
+// render if have body
+for (const link of links) {
+    if (link.body !== '') {
+        const { Content } = await link.render();
+        // @ts-ignore
+        link.result = Content;
+    }
+}
+---
+
+<!-- ========== FOOTER ========== -->
+<footer class="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
+    <!-- Grid -->
+    <div class="text-center">
+        <div>
+            <a class="flex-none text-xl font-semibold text-black dark:text-white" href="#" aria-label="Brand">{ import.meta.env.SITE_TITLE }</a>
+        </div>
+        <!-- End Col -->
+
+        <div class="mt-3">
+            <p class="text-gray-500 dark:text-neutral-500">
+                Design using <a href="https://preline.co/" target="_blank">Preline UI</a>. Made with <iconify-icon icon="line-md:heart-filled" inline></iconify-icon> by <a href="#" target="_blank">sakkyoi</a>.
+            </p>
+            <p class="text-gray-500 dark:text-neutral-500"> © { today.getFullYear() } { import.meta.env.SITE_TITLE }. All rights reserved.</p>
+        </div>
+
+        <!-- Social Brands -->
+        <div class="mt-3 space-x-2">
+            {
+                links.filter(e => e.data.type === 'link').map((link) => (
+                    <span>
+                        {
+                            // @ts-ignore
+                            link.result && (
+                                <a href={ link.data.url } target={ link.data.target }>
+                                    <!-- @ts-ignore -->
+                                    <link.result />
+                                </a>
+                            )
+                        }
+                        {
+                            // @ts-ignore
+                            link.data.icon && !link.result && (
+                            <a class="hs-tooltip size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ link.data.url } target={ link.data.target }>
+                                <iconify-icon class="shrink-0 size-3.5" icon={ link.data.icon } inline></iconify-icon>
+                            </a>
+                            )
+                        }
+                    </span>
+                ))
+            }
+        </div>
+        <!-- End Social Brands -->
+    </div>
+    <!-- End Grid -->
+    {
+        // @ts-ignore
+        links.filter(e => e.data.type === 'script').map((link) => <script set:html={ link.body } />)
+    }
+</footer>
+<!-- ========== END FOOTER ========== -->

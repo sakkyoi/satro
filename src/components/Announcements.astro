@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Announcement from './Announcement.vue';
+
+const announcements = await getCollection('announcement');
+---
+
+<div class="space-y-3">
+    
+    {
+        announcements.map((announcement: any) => (
+            <Announcement 
+                slug={ announcement.slug }
+                title={ announcement.data.title }
+                body={ announcement.body }
+                pubDate={ announcement.data.pubDate }
+                client:only="vue"
+            />
+        ))
+    }
+
+</div>

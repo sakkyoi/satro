@@ -1,0 +1,57 @@
+{
+    "_COMMENT": "Global Default",
+    "CONSTS_SITE_NAME_UNTITLED": "Untitled Site",
+    "CONSTS_SITE_DESCRIPTION_UNSET": "No description",
+
+    "_COMMENT": "404 Page",
+    "NOT_FOUND_PAGE_TITLE": "Oh my gotto! page not found!",
+    "NOT_FOUND_BACK_TO_HOME": "回首頁",
+
+    "_COMMENT": "Category",
+    "CATEGORY_PAGE_TITLE": "分類: {category} - {site_title}",
+    "CATEGORY": "分類",
+    "CATEGORY_UNCATEGORIZED": "未分類",
+
+    "_COMMENT": "Tag",
+    "TAG_PAGE_TITLE": "標籤: {tag} - {site_title}",
+    "TAG": "標籤",
+
+    "_COMMENT": "Article Page",
+    "ARTICLE_PAGE_BACK": "上一頁",
+    "ARTICLE_PAGE_TITLE": "{title} - {site_title}",
+    "ARTICLE_PUBLISHED_AT": "發佈於",
+    "ARTICLE_UPDATED_AT": "更新於",
+    "ARTICLE_ON_THIS_PAGE": "On this page",
+    "ARTICLE_SHARE": "分享",
+    "ARTICLE_SHARE_COPY_LINK": "複製連結",
+    "ARTICLE_SHARE_COPY_LINK_COPY": "複製",
+    "ARTICLE_SHARE_COPY_LINK_COPIED": "已複製！",
+
+    "_COMMENT": "Tag Select Component",
+    "TAG_SELECT_PLACEHOLDER": "新增",
+    "TAG_SELECT_SEARCH_NOT_FOUND": "找不到：",
+
+    "_COMMENT": "Search Component",
+    "SEARCH": "搜尋",
+    "SEARCHING_CATEGORY_OR_TAG_TIP": "你正在搜尋 {name}: {keyword}",
+    "SEARCH_PLACEHOLDER_SEARCHING_CATEGORY_OR_TAG_TIP": "搜尋 {name}：{keyword}",
+    "SEARCH_PLACEHOLDER": "輸入關鍵字...",
+    "QUICK_SEARCH": "快速搜尋",
+    "QUICK_SEARCH_NO_RESULT": "找不到結果",
+    "Close": "關閉",
+
+    "_COMMENT": "Filter Component",
+    "FILTER": "篩選",
+    "FILTER_CLEAR": "清除",
+    "FILTER_TIP": "{name}：",
+    
+    "_COMMENT": "Query Component",
+    "QUERY_PAGINATION_PREVIOUS": "上一頁",
+    "QUERY_PAGINATION_NEXT": "下一頁",
+    "QUERY_STRING_BROKEN_ALERT": "嘿！查詢字串壞掉了！但別擔心，我們已經幫你修好了！",
+    "QUERY_NO_RESULT": "找不到結果",
+
+    "_COMMENT": "Hightlight API Check Component",
+    "HIGHLIGHT_API_NOT_SUPPORTED_TIELE": "喂❗️",
+    "HIGHLIGHT_API_NOT_SUPPORTED_MESSAGE": "你正在使用不支援 Highlight API 的瀏覽器（例如：Firefox），這將會導致搜尋功能不會 <mark>幫你標示關鍵字</mark>，不用擔心，搜尋功能還是可以正常使用"
+}

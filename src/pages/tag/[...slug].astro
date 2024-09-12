@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import QueryBase from '../../layouts/QueryBase.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('article');
+    const tags = [...new Set(posts.map((post: any) => post.data.tags!).flat())];
+    
+	return tags.map((tag: unknown) => ({
+		params: { slug: tag },
+		props: { path: 'tag', item: tag },
+	}));
+}
+type Props = {
+    path: string
+    item: string
+};
+
+const { path, item } = Astro.props;
+---
+
+<QueryBase path={ path } item={ item } />

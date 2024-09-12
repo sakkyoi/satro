@@ -1,0 +1,43 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getLocalString } from '../langs/lang';
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Query from '../components/Query.vue';
+import Announcements from '../components/Announcements.astro';
+
+type Props = {
+    path?: string
+    item?: string
+};
+
+const { path, item } = Astro.props;
+
+let title;
+if (path && item) {
+	title = getLocalString(`${path.toUpperCase()}_PAGE_TITLE`);
+	title = title.replace(`{${path}}`, item);
+	title = title.replace('{site_title}', SITE_TITLE);
+} else {
+	title = SITE_TITLE;
+}
+---
+
+<Base title={ title } description={ SITE_DESCRIPTION }>
+	<Header path={ path } item={ item } />
+	<main class="w-full px-[30px] xl:px-[300px] pt-10">
+		<Announcements />
+		{
+			path && item && (
+				<div class="flex flex-col content-end pt-5">
+					<span class="opacity-60 text-xl pl-1">{ getLocalString(path.toUpperCase()) }</span>
+					<span class="text-5xl">{ item }</span>
+				</div>
+			)
+		}
+
+		<Query path={ path } item={ item } client:only="vue" />
+	</main>
+	<Footer />
+</Base>

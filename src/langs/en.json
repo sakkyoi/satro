@@ -1,0 +1,57 @@
+{
+    "_COMMENT": "Global Default",
+    "CONSTS_SITE_NAME_UNTITLED": "Untitled Site",
+    "CONSTS_SITE_DESCRIPTION_UNSET": "No description",
+
+    "_COMMENT": "404 Page",
+    "NOT_FOUND_PAGE_TITLE": "Oh my gotto! page not found!",
+    "NOT_FOUND_BACK_TO_HOME": "Back to Home",
+
+    "_COMMENT": "Category",
+    "CATEGORY_PAGE_TITLE": "Category: {category} - {site_title}",
+    "CATEGORY": "Category",
+    "CATEGORY_UNCATEGORIZED": "Uncategorized",
+
+    "_COMMENT": "Tag",
+    "TAG_PAGE_TITLE": "Tag: {tag} - {site_title}",
+    "TAG": "Tag",
+
+    "_COMMENT": "Article Page",
+    "ARTICLE_PAGE_BACK": "Back",
+    "ARTICLE_PAGE_TITLE": "{title} - {site_title}",
+    "ARTICLE_PUBLISHED_AT": "Published at",
+    "ARTICLE_UPDATED_AT": "Updated at",
+    "ARTICLE_ON_THIS_PAGE": "On this page",
+    "ARTICLE_SHARE": "Share",
+    "ARTICLE_SHARE_COPY_LINK": "Copy Link",
+    "ARTICLE_SHARE_COPY_LINK_COPY": "Copy",
+    "ARTICLE_SHARE_COPY_LINK_COPIED": "Copied!",
+
+    "_COMMENT": "Tag Select Component",
+    "TAG_SELECT_PLACEHOLDER": "Add",
+    "TAG_SELECT_SEARCH_NOT_FOUND": "Not found: ",
+
+    "_COMMENT": "Search Component",
+    "SEARCH": "Search",
+    "SEARCHING_CATEGORY_OR_TAG_TIP": "You are searching for {name}: {keyword}",
+    "SEARCH_PLACEHOLDER_SEARCHING_CATEGORY_OR_TAG_TIP": "Search for {name} by {keyword}",
+    "SEARCH_PLACEHOLDER": "input keyword...",
+    "QUICK_SEARCH": "Quick Search",
+    "QUICK_SEARCH_NO_RESULT": "No result found",
+    "Close": "Close",
+
+    "_COMMENT": "Filter Component",
+    "FILTER": "Filter",
+    "FILTER_CLEAR": "Clear",
+    "FILTER_TIP": "{name}: ",
+    
+    "_COMMENT": "Query Component",
+    "QUERY_PAGINATION_PREVIOUS": "Previous",
+    "QUERY_PAGINATION_NEXT": "Next",
+    "QUERY_STRING_BROKEN_ALERT": "Hey! The query string is broken! But don't worry, we have fixed it for you!",
+    "QUERY_NO_RESULT": "No result found",
+
+    "_COMMENT": "Hightlight API Check Component",
+    "HIGHLIGHT_API_NOT_SUPPORTED_TIELE": "OH NO❗️",
+    "HIGHLIGHT_API_NOT_SUPPORTED_MESSAGE": "You are using a browser that does not support the Highlight API (e.g. Firefox), which will cause the search function to not <mark>highlight keywords</mark> for you. Don't worry, the search function can still be used normally."
+}

@@ -1,0 +1,24 @@
+---
+import { getLocalString } from '../langs/lang';
+import { SITE_DESCRIPTION } from '../consts';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base title={ getLocalString('NOT_FOUND_PAGE_TITLE') } description={ SITE_DESCRIPTION }>
+    <Header />
+    <main class="w-full px-[30px] xl:px-[300px] pt-10">
+        <div class="w-full flex justify-center">
+            <img src="/404.png" alt="404 Not Found" />
+        </div>
+        <p class="text-sm text-gray-500 dark:text-neutral-500 text-center">
+            404 image from <a href="https://github.com/SAWARATSUKI/KawaiiLogos" target="_blank">KawaiiLogos</a> by <a href="https://github.com/SAWARATSUKI" target="_blank">SAWARATSUKI</a>.
+        </p>
+        <a class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 hover:underline focus:outline-none focus:underline dark:text-blue-500 mt-5" href="/">
+            <iconify-icon class="shrink-0" icon="ion:chevron-back" inline></iconify-icon>
+            { getLocalString('NOT_FOUND_BACK_TO_HOME') }
+        </a>
+    </main>
+    <Footer />
+</Base>

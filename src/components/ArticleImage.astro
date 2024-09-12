@@ -1,0 +1,17 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+    src: string
+    alt: string
+}
+
+const { src, alt } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/content/image/**/*.{jpg,jpeg,png,gif,webp}');
+
+const imagePath = `/src/content/image/${src.replace(/^\/|\/$/g, '')}`; // remove leading slashes
+if (!images[imagePath]) throw new Error(`Image not found: ${src}`);
+---
+
+<Image src={ images[imagePath]() } alt={ alt } />
