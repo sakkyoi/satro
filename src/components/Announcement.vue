@@ -35,9 +35,7 @@ const remove = () => {
                         }}
                     </span>
                 </h3>
-                <p class="mt-2 text-md text-gray-700 dark:text-neutral-400">
-                    {{ props.body }}
-                </p>
+                <p class="mt-2 text-md text-gray-700 dark:text-neutral-400" v-html="props.body"></p>
             </div>
             <div class="absolute top-0 right-0 m-2 cursor-pointer opacity-70" :data-hs-remove-element="`#announcement-${props.slug}`" @click="remove()">
                 <iconify-icon icon="mingcute:close-circle-line"></iconify-icon>
