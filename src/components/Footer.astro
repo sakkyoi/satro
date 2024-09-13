@@ -62,7 +62,7 @@ for (const link of links) {
     <!-- End Grid -->
     {
         // @ts-ignore
-        links.filter(e => e.data.type === 'script').map((link) => <script set:html={ link.body } />)
+        links.filter(e => e.data.type === 'script').map((link) => <script is:inline set:html={ link.body } />)
     }
 </footer>
 <!-- ========== END FOOTER ========== -->
