@@ -8,8 +8,15 @@ import { type IStaticMethods } from "preline/preline";
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
 import QueryFilter from './QueryFilter.vue';
+import type { QueryReturn } from './query.d';
 
-const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } = (window as any).query;
+declare global {
+    interface Window {
+		query: QueryReturn
+    }
+}
+
+const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } = window.query;
 const images = await Object.fromEntries(await Promise.all(
     Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
 ));

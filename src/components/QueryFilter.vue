@@ -5,8 +5,15 @@ import { ref, type Ref, onMounted } from 'vue';
 import { type IStaticMethods } from "preline/preline";
 
 import TagSelect from './TagSelect.vue';
+import type { QueryReturn } from './query.d';
 
-const { query } = (window as any).query;
+declare global {
+    interface Window {
+		query: QueryReturn
+    }
+}
+
+const { query } = window.query;
 
 declare global {
     interface Window {

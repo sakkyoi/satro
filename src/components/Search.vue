@@ -5,17 +5,18 @@ import Fuse from 'fuse.js';
 import { type IStaticMethods, HSOverlay } from "preline/preline";
 
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
-import Highlight from './Highlight.vue';
-
-const { query, navigateWithQuery } = (window as any).query;
+import Highlight from './Highlight.vue';import type { QueryReturn } from './query.d';
 
 declare global {
     interface Window {
-        HSStaticMethods: IStaticMethods;
+        HSStaticMethods: IStaticMethods
+        query: QueryReturn
     }
 
     var posts: Array<{ [key: string]: any }>
 }
+
+const { query, navigateWithQuery } = (window as any).query;
 
 const props = defineProps<{
     path?: string

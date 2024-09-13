@@ -1,18 +1,14 @@
+
 import { navigate } from 'astro:transitions/client';
-import { reactive, type Reactive } from 'vue';
+import { reactive } from 'vue';
 import { watchIgnorable, type WatchIgnorableReturn } from '@vueuse/core';
 
 import { atob, btoa } from './patchedB64';
 import { getLocalString } from './clientLocaleData';
 
-export type query = Reactive<{
-    category: string[]
-    tag: string[]
-    keyword?: string
-    page: number
-}>;
+import type { QueryReturn, query } from './query.d';
 
-export default function () {
+export default function Query(): QueryReturn {
     const query: query = reactive({
         category: [],
         tag: [],
