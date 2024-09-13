@@ -13,7 +13,7 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 // glob favicon from public folder
-const favicons = import.meta.glob('/public/favicon.*');
+const favicons = import.meta.glob('../../public/favicon.*');
 const favicon = Object.keys(favicons)[Math.floor(Math.random() * Object.keys(favicons).length)]?.replace('/public', '') ?? '/default-favicon.svg';
 let faviconType;
 if (favicon.endsWith('.svg')) faviconType = 'image/svg+xml';
@@ -25,7 +25,7 @@ else if (favicon.endsWith('.gif')) faviconType = 'image/gif';
 else throw new Error('Unsupported favicon type');
 
 // try to glob thumbnail from public folder
-const thumbnails = import.meta.glob('/public/thumbnail.*');
+const thumbnails = import.meta.glob('../../public/thumbnail.*');
 const thumbnail = Object.keys(thumbnails)[Math.floor(Math.random() * Object.keys(thumbnails).length)]?.replace('/public', '') ?? '/astro-placeholder.jpg';
 
 const { title, description, image = thumbnail } = Astro.props;
