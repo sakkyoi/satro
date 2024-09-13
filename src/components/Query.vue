@@ -149,7 +149,7 @@ const { ignoreUpdates: ignorePageUpdatesInQueryComponent, stop: stopPageWatcherI
             query.page! * perPage
         )" :key="item.slug" v-else>
             <div class="aspect-w-16 aspect-h-12 overflow-hidden bg-gray-100 rounded-2xl dark:bg-neutral-800">
-                <img class="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-2xl w-full" :alt="item.title" v-bind="images[`../content/image/${item.heroImage.replace(/^\/|\/$/g, '')}`]" />
+                <img class="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-2xl w-full" :alt="item.title" v-bind="images[`../content/image/${item.heroImage?.replace(/^\/|\/$/g, '')}`]!" />
             </div>
 
             <div class="pt-4">
