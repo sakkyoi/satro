@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { query, navigateWithQuery } from './query';
 import { getLocalString } from './clientLocaleData';
 import { ref, type Ref, useTemplateRef, reactive, onMounted } from 'vue';
 import Fuse from 'fuse.js';
@@ -7,6 +6,8 @@ import { type IStaticMethods, HSOverlay } from "preline/preline";
 
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
+
+const { query, navigateWithQuery } = (window as any).query;
 
 declare global {
     interface Window {

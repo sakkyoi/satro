@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { query } from './query';
 import { getLocalString } from './clientLocaleData';
 
 import { ref, type Ref, onMounted } from 'vue';
 import { type IStaticMethods } from "preline/preline";
 
 import TagSelect from './TagSelect.vue';
+
+const { query } = (window as any).query;
 
 declare global {
     interface Window {

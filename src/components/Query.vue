@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers, images } from './query';
 import { getLocalString, locale } from './clientLocaleData';
 import { watchIgnorable } from '@vueuse/core';
 import { ref, type Ref, onMounted, useTemplateRef, onUnmounted } from 'vue';
@@ -9,6 +8,8 @@ import { type IStaticMethods } from "preline/preline";
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
 import QueryFilter from './QueryFilter.vue';
+
+const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers, images } = (window as any).query;
 
 declare global {
     interface Window {
