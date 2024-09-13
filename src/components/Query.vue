@@ -9,7 +9,10 @@ import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
 import QueryFilter from './QueryFilter.vue';
 
-const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers, images } = (window as any).query;
+const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } = (window as any).query;
+const images = await Object.fromEntries(await Promise.all(
+    Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
+));
 
 declare global {
     interface Window {

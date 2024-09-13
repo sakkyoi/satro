@@ -12,11 +12,7 @@ export type query = Reactive<{
     page: number
 }>;
 
-export default async function () {
-    const images = Object.fromEntries(await Promise.all(
-        Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
-    ));
-
+export default function () {
     const query: query = reactive({
         category: [],
         tag: [],
@@ -156,6 +152,5 @@ export default async function () {
         startWatchers,
         stopWatchers,
         ignoreQueryUpdates,
-        images,
     }
 }
