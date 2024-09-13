@@ -14,7 +14,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 // glob favicon from public folder
 const favicons = import.meta.glob('/public/favicon.*');
-const favicon = Object.keys(favicons)[Math.floor(Math.random() * Object.keys(favicons).length)]?.replace('/public', '');
+const favicon = Object.keys(favicons)[Math.floor(Math.random() * Object.keys(favicons).length)]?.replace('/public', '') ?? '/default-favicon.svg';
+let faviconType;
+if (favicon.endsWith('.svg')) faviconType = 'image/svg+xml';
+else if (favicon.endsWith('.png')) faviconType = 'image/png';
+else if (favicon.endsWith('.ico')) faviconType = 'image/x-icon';
+else if (favicon.endsWith('.jpg') || favicon.endsWith('.jpeg')) faviconType = 'image/jpeg';
+else if (favicon.endsWith('.webp')) faviconType = 'image/webp';
+else if (favicon.endsWith('.gif')) faviconType = 'image/gif';
+else throw new Error('Unsupported favicon type');
 
 // try to glob thumbnail from public folder
 const thumbnails = import.meta.glob('/public/thumbnail.*');
@@ -28,7 +36,7 @@ const posts = (await getCollection('article')).map((e: any) => Object.assign(e.d
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-<link rel="icon" type="image/svg+xml" href={ favicon } />
+<link rel="icon" type={ faviconType } href={ favicon } />
 <meta name="generator" content={ Astro.generator } />
 
 
