@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } from './query';
+import { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers, images } from './query';
 import { getLocalString, locale } from './clientLocaleData';
 import { watchIgnorable } from '@vueuse/core';
 import { ref, type Ref, onMounted, useTemplateRef, onUnmounted } from 'vue';
 import Fuse from 'fuse.js';
 import { type IStaticMethods } from "preline/preline";
-import { Image } from 'astro:assets';
 
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
@@ -150,7 +149,7 @@ const { ignoreUpdates: ignorePageUpdatesInQueryComponent, stop: stopPageWatcherI
             query.page! * perPage
         )" :key="item.slug" v-else>
             <div class="aspect-w-16 aspect-h-12 overflow-hidden bg-gray-100 rounded-2xl dark:bg-neutral-800">
-                <img class="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-2xl w-full" :src="`/src/content/image/${item.heroImage.replace(/^\/|\/$/g, '')}`" :alt="item.title" />
+                <img class="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out object-cover rounded-2xl w-full" :alt="item.title" v-bind="images[`../content/image/${item.heroImage.replace(/^\/|\/$/g, '')}`]" />
             </div>
 
             <div class="pt-4">

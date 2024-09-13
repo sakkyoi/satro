@@ -5,6 +5,10 @@ import { watchIgnorable, type WatchIgnorableReturn } from '@vueuse/core';
 import { atob, btoa } from './patchedB64';
 import { getLocalString } from './clientLocaleData';
 
+export const images = Object.fromEntries(await Promise.all(
+    Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
+));
+
 export type query = Reactive<{
     category: string[]
     tag: string[]
