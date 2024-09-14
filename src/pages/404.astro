@@ -4,13 +4,14 @@ import { SITE_DESCRIPTION } from '../consts';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import img404 from '/public/404.png';
 ---
 
 <Base title={ getLocalString('NOT_FOUND_PAGE_TITLE') } description={ SITE_DESCRIPTION }>
     <Header />
     <main class="w-full px-[30px] xl:px-[300px] pt-10">
         <div class="w-full flex justify-center">
-            <img src="/404.png" alt="404 Not Found" />
+            <img src={ img404.src } alt="404 Not Found" />
         </div>
         <p class="text-sm text-gray-500 dark:text-neutral-500 text-center">
             404 image from <a href="https://github.com/SAWARATSUKI/KawaiiLogos" target="_blank">KawaiiLogos</a> by <a href="https://github.com/SAWARATSUKI" target="_blank">SAWARATSUKI</a>.
