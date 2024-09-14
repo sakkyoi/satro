@@ -27,6 +27,7 @@ const rehypeExpressiveCodeOptions = {
 // https://astro.build/config
 export default defineConfig({
     site: SITE_URL,
+    base: new URL(SITE_URL).pathname,
     integrations: [vue({
         template: {
             compilerOptions: {

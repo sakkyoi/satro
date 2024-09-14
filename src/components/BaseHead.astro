@@ -14,7 +14,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 // glob favicon from public folder
 const favicons = import.meta.glob('../../public/favicon.*');
-const favicon = Object.keys(favicons)[Math.floor(Math.random() * Object.keys(favicons).length)]?.replace('/public', '') ?? '/default-favicon.svg';
+const favicon = Object.keys(favicons)[Math.floor(Math.random() * Object.keys(favicons).length)]?.replace('../../public/', '') ?? 'default-favicon.svg';
 let faviconType;
 if (favicon.endsWith('.svg')) faviconType = 'image/svg+xml';
 else if (favicon.endsWith('.png')) faviconType = 'image/png';
@@ -26,7 +26,7 @@ else throw new Error('Unsupported favicon type');
 
 // try to glob thumbnail from public folder
 const thumbnails = import.meta.glob('../../public/thumbnail.*');
-const thumbnail = Object.keys(thumbnails)[Math.floor(Math.random() * Object.keys(thumbnails).length)]?.replace('/public', '') ?? '/astro-placeholder.jpg';
+const thumbnail = Object.keys(thumbnails)[Math.floor(Math.random() * Object.keys(thumbnails).length)]?.replace('../../public/', '') ?? 'astro-placeholder.jpg';
 
 const { title, description, image = thumbnail } = Astro.props;
 
@@ -63,7 +63,7 @@ const posts = (await getCollection('article')).map((e: any) => Object.assign(e.d
 <meta property="twitter:image" content={ new URL(image, Astro.url) } />
 
 <!-- Sitemap -->
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href={ new URL("sitemap-index.xml", Astro.url).pathname } />
 
 <!-- RSS -->
 <link
