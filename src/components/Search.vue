@@ -77,7 +77,7 @@ const clearFilter = () => {
 }
 
 const getRelativeURL = (url: string) => {
-    return new URL(url, window.SITE_BASE).pathname;
+    return new URL(url, new URL(window.SITE_BASE, window.location.href)).pathname;
 }
 
 onMounted(async () => {
