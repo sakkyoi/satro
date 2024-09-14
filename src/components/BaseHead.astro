@@ -11,6 +11,7 @@ interface Props {
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const SITE_BASE = Astro.site?.pathname;
 
 // glob favicon from public folder
 const favicons = import.meta.glob('../../public/favicon.*');
@@ -88,8 +89,8 @@ declare global {
 window.query = query();
 </script>
 
-<script is:inline define:vars={{ localeData, locale, posts, canonicalURL }}>
-window.SITE_BASE = canonicalURL.pathname;
+<script is:inline define:vars={{ localeData, locale, posts, SITE_BASE }}>
+window.SITE_BASE = SITE_BASE;
 window.localeData = localeData;
 window.locale = locale;
 globalThis.posts = posts;
