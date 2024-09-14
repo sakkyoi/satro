@@ -76,6 +76,16 @@ const posts = (await getCollection('article')).map((e: any) => Object.assign(e.d
 <script>
 import 'preline/preline'; // preline
 import 'iconify-icon'; // iconify web component
+import query from './query';
+import type { QueryReturn } from './query.d';
+
+declare global {
+    interface Window {
+		query: QueryReturn
+    }
+}
+
+window.query = query();
 </script>
 
 <script is:inline define:vars={{ localeData, locale, posts }}>

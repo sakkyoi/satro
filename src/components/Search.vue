@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { query, navigateWithQuery } from './query';
 import { getLocalString } from './clientLocaleData';
 import { ref, type Ref, useTemplateRef, reactive, onMounted } from 'vue';
 import Fuse from 'fuse.js';
 import { type IStaticMethods, HSOverlay } from "preline/preline";
 
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
-import Highlight from './Highlight.vue';
+import Highlight from './Highlight.vue';import type { QueryReturn } from './query.d';
 
 declare global {
     interface Window {
-        HSStaticMethods: IStaticMethods;
+        HSStaticMethods: IStaticMethods
+        query: QueryReturn
     }
 
     var posts: Array<{ [key: string]: any }>
 }
+
+const { query, navigateWithQuery } = (window as any).query;
 
 const props = defineProps<{
     path?: string
