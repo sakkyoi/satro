@@ -28,7 +28,7 @@ else throw new Error('Unsupported favicon type');
 const thumbnails = import.meta.glob('../../public/thumbnail.*');
 const thumbnail = Object.keys(thumbnails)[Math.floor(Math.random() * Object.keys(thumbnails).length)]?.replace('../../public/', '') ?? 'astro-placeholder.jpg';
 
-const { title, description, image = thumbnail } = Astro.props;
+const { title, description, image } = Astro.props;
 
 const posts = (await getCollection('article')).map((e: any) => Object.assign(e.data, { slug: e.slug }));
 ---
@@ -36,7 +36,7 @@ const posts = (await getCollection('article')).map((e: any) => Object.assign(e.d
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-<link rel="icon" type={ faviconType } href={ favicon } />
+<link rel="icon" type={ faviconType } href={ new URL(favicon, Astro.site).pathname } />
 <meta name="generator" content={ Astro.generator } />
 
 
@@ -53,17 +53,17 @@ const posts = (await getCollection('article')).map((e: any) => Object.assign(e.d
 <meta property="og:url" content={ Astro.url } />
 <meta property="og:title" content={ title } />
 <meta property="og:description" content={ description } />
-<meta property="og:image" content={ new URL(image, Astro.url) } />
+<meta property="og:image" content={ image ? new URL(image, Astro.url) : new URL(thumbnail, Astro.site) } />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={ Astro.url } />
 <meta property="twitter:title" content={ title } />
 <meta property="twitter:description" content={ description } />
-<meta property="twitter:image" content={ new URL(image, Astro.url) } />
+<meta property="twitter:image" content={ image ? new URL(image, Astro.url) : new URL(thumbnail, Astro.site) } />
 
 <!-- Sitemap -->
-<link rel="sitemap" href={ new URL("sitemap-index.xml", Astro.url).pathname } />
+<link rel="sitemap" href={ new URL("sitemap-index.xml", Astro.site).pathname } />
 
 <!-- RSS -->
 <link

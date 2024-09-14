@@ -89,7 +89,7 @@ const getCollection = () => {
 }
 
 const getRelativeURL = (url: string) => {
-    return new URL(url, new URL(window.SITE_BASE, window.location.href)).pathname;
+    return new URL(url, new URL(window.SITE_BASE, window.location.origin)).pathname;
 }
 
 // parse query on mounted
