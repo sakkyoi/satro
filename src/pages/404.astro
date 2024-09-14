@@ -15,7 +15,7 @@ import Footer from '../components/Footer.astro';
         <p class="text-sm text-gray-500 dark:text-neutral-500 text-center">
             404 image from <a href="https://github.com/SAWARATSUKI/KawaiiLogos" target="_blank">KawaiiLogos</a> by <a href="https://github.com/SAWARATSUKI" target="_blank">SAWARATSUKI</a>.
         </p>
-        <a class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 hover:underline focus:outline-none focus:underline dark:text-blue-500 mt-5" href="/">
+        <a class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 hover:underline focus:outline-none focus:underline dark:text-blue-500 mt-5" href={ Astro.site }>
             <iconify-icon class="shrink-0" icon="ion:chevron-back" inline></iconify-icon>
             { getLocalString('NOT_FOUND_BACK_TO_HOME') }
         </a>

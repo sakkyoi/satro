@@ -11,6 +11,7 @@ declare global {
     interface Window {
         HSStaticMethods: IStaticMethods
         query: QueryReturn
+        SITE_BASE: string
     }
 
     var posts: Array<{ [key: string]: any }>
@@ -65,7 +66,7 @@ const proceedSearch = () => {
         category: [],
         tag: [],
         page: 1
-    }, !filter.path ? '/' : undefined);
+    }, !filter.path ? window.SITE_BASE : undefined);
 
     search.value = '';
 }
@@ -73,6 +74,10 @@ const proceedSearch = () => {
 const clearFilter = () => {
     filter.path = undefined;
     filter.item = undefined;
+}
+
+const getRelativeURL = (url: string) => {
+    return new URL(url, window.SITE_BASE).pathname;
 }
 
 onMounted(async () => {
@@ -117,7 +122,7 @@ onMounted(async () => {
                     <ul class="flex flex-col border-t-[1px] pt-2" :set="result = getCollection()">
                         <span class="text-left text-xs opacity-40">{{ getLocalString('QUICK_SEARCH') }}</span>
                         <li class="inline-flex items-center text-start gap-x-2 py-3 px-4 text-sm font-medium text-gray-800 dark:text-white hover:bg-keshizumi/10 rounded-xl" v-for="item in result.slice(0, 5)" :key="`${item.slug}`">
-                            <a class="flex flex-col w-full" :href="`/article/${item.slug}`">
+                            <a class="flex flex-col w-full" :href="getRelativeURL(`article/${item.slug}`)">
                                 <Highlight :value="title.value" :indices="title.indices" v-for="(title, i) in item.matches.filter((e: any) => e.key === 'title')" v-if="item.matches?.some((e: any) => e.key === 'title')" :key="`${title.value}-${i}`" />
                                 <span v-else>{{ item.title }}</span>
                                 

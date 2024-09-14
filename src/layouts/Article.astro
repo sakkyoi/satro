@@ -27,11 +27,11 @@ const slug = Astro.params.slug;
 				<div class="flex gap-x-3">
 					{
 						categories ? categories.map((category: string) => (
-							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ `/category/${category}` }>
+							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`category/${category}`, Astro.site) }>
 								{ category }
 							</a>
 						)) : (
-							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ `/category/${ getLocalString('CATEGORY_UNCATEGORIZED') }` }>
+							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`category/${ getLocalString('CATEGORY_UNCATEGORIZED') }`, Astro.site) }>
 								{ getLocalString('CATEGORY_UNCATEGORIZED') }
 							</a>
 						)
@@ -98,7 +98,7 @@ const slug = Astro.params.slug;
 				<div>
 					{
 						tags?.map((tag: string) => (
-							<a class="m-0.5 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ `/tag/${tag}` }>
+							<a class="m-0.5 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`tag/${tag}`, Astro.site) }>
 								{ tag }
 							</a>
 						))

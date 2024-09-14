@@ -20,13 +20,13 @@ for (const link of links) {
     <!-- Grid -->
     <div class="text-center">
         <div>
-            <a class="flex-none text-xl font-semibold text-black dark:text-white" href="#" aria-label="Brand">{ import.meta.env.SITE_TITLE }</a>
+            <a class="flex-none text-xl font-semibold text-black dark:text-white" href={ Astro.site } aria-label="Brand">{ import.meta.env.SITE_TITLE }</a>
         </div>
         <!-- End Col -->
 
         <div class="mt-3">
             <p class="text-gray-500 dark:text-neutral-500">
-                Design using <a href="https://preline.co/" target="_blank">Preline UI</a>. Made with <iconify-icon icon="line-md:heart-filled" inline></iconify-icon> by <a href="#" target="_blank">sakkyoi</a>.
+                Design using <a href="https://preline.co/" target="_blank">Preline UI</a>. Made with <iconify-icon icon="line-md:heart-filled" inline></iconify-icon> by <a href="https://github.com/sakkyoi" target="_blank">sakkyoi</a>.
             </p>
             <p class="text-gray-500 dark:text-neutral-500"> © { today.getFullYear() } { import.meta.env.SITE_TITLE }. All rights reserved.</p>
         </div>

@@ -13,6 +13,7 @@ import type { QueryReturn } from './query.d';
 declare global {
     interface Window {
 		query: QueryReturn
+        SITE_BASE: string
     }
 }
 
@@ -87,6 +88,10 @@ const getCollection = () => {
     return result;
 }
 
+const getRelativeURL = (url: string) => {
+    return new URL(url, window.SITE_BASE).pathname;
+}
+
 // parse query on mounted
 onMounted(() => ignorePageUpdatesInQueryComponent(() => ignoreQueryUpdates(() => {
     startStateWatcher(); // start watching state changes
@@ -155,7 +160,7 @@ const { ignoreUpdates: ignorePageUpdatesInQueryComponent, stop: stopPageWatcherI
         </div>
         <!-- End Skeleton -->
 
-        <a class="group flex flex-col focus:outline-none" :href="`/article/${item.slug}`" v-for="item in result.slice(
+        <a class="group flex flex-col focus:outline-none" :href="getRelativeURL(`article/${item.slug}`)" v-for="item in result.slice(
             (query.page! - 1) * perPage,
             query.page! * perPage
         )" :key="item.slug" v-else>
