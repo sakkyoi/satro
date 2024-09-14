@@ -1,4 +1,3 @@
-
 import { navigate } from 'astro:transitions/client';
 import { reactive } from 'vue';
 import { watchIgnorable, type WatchIgnorableReturn } from '@vueuse/core';
@@ -6,9 +5,9 @@ import { watchIgnorable, type WatchIgnorableReturn } from '@vueuse/core';
 import { atob, btoa } from './patchedB64';
 import { getLocalString } from './clientLocaleData';
 
-import type { QueryReturn, query } from './query.d';
+import type { query } from './query.d';
 
-export default function Query(): QueryReturn {
+export default function Query() {
     const query: query = reactive({
         category: [],
         tag: [],

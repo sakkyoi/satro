@@ -2,24 +2,10 @@
 import { getLocalString } from './clientLocaleData';
 
 import { ref, type Ref, onMounted } from 'vue';
-import { type IStaticMethods } from "preline/preline";
 
 import TagSelect from './TagSelect.vue';
-import type { QueryReturn } from './query.d';
-
-declare global {
-    interface Window {
-		query: QueryReturn
-    }
-}
 
 const { query } = window.query;
-
-declare global {
-    interface Window {
-        HSStaticMethods: IStaticMethods;
-    }
-}
 
 const categories: Ref<Array<string>> = ref([...new Set([...globalThis.posts].map(e => e.categories ?? getLocalString('CATEGORY_UNCATEGORIZED')).flat())]);
 const tags: Ref<Array<string>> = ref([...new Set([...globalThis.posts].map(e => e.tags!).flat().filter(e => e))]);

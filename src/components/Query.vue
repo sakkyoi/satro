@@ -1,33 +1,19 @@
 <script setup lang="ts">
 import { getLocalString, locale } from './clientLocaleData';
-import { watchIgnorable } from '@vueuse/core';
+import { watchIgnorable, until } from '@vueuse/core';
 import { ref, type Ref, onMounted, useTemplateRef, onUnmounted } from 'vue';
 import Fuse from 'fuse.js';
-import { type IStaticMethods } from "preline/preline";
 
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
 import QueryFilter from './QueryFilter.vue';
-import type { QueryReturn } from './query.d';
 
-declare global {
-    interface Window {
-		query: QueryReturn
-        SITE_BASE: string
-    }
-}
+await until(window.queryReady).toMatch(v => v); // wait for the query to be ready
 
 const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } = window.query;
 const images = await Object.fromEntries(await Promise.all(
     Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
 ));
-
-declare global {
-    interface Window {
-        HSStaticMethods: IStaticMethods;
-    }
-    var posts: Array<{ [key: string]: any }>
-}
 
 const queryTop = useTemplateRef('query-top'); // the top of the query result
 const perPage = ref(10); // items per page

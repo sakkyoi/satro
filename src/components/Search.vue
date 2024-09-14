@@ -1,21 +1,14 @@
 <script setup lang="ts">
 import { getLocalString } from './clientLocaleData';
 import { ref, type Ref, useTemplateRef, reactive, onMounted } from 'vue';
+import { until } from '@vueuse/core';
 import Fuse from 'fuse.js';
-import { type IStaticMethods, HSOverlay } from "preline/preline";
+import { HSOverlay } from "preline/preline";
 
 import HighlightAPIWarning from './HighlightAPIWarning.vue';
-import Highlight from './Highlight.vue';import type { QueryReturn } from './query.d';
+import Highlight from './Highlight.vue';
 
-declare global {
-    interface Window {
-        HSStaticMethods: IStaticMethods
-        query: QueryReturn
-        SITE_BASE: string
-    }
-
-    var posts: Array<{ [key: string]: any }>
-}
+await until(window.queryReady).toMatch(v => v); // wait for the query to be ready
 
 const { query, navigateWithQuery } = (window as any).query;
 

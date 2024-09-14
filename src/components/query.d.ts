@@ -1,21 +1,5 @@
 import type { Reactive } from 'vue';
 import type { IgnoredUpdater } from '@vueuse/core';
-/*
-function default(): {
-    query: {
-        category: string[];
-        tag: string[];
-        keyword?: string | undefined;
-        page: number;
-    };
-    parseQuery: () => void;
-    stringifyQuery: (replace?: boolean) => void;
-    navigateWithQuery: (newQuery: query, target?: string) => void;
-    startWatchers: () => void;
-    stopWatchers: () => void;
-    ignoreQueryUpdates: IgnoredUpdater;
-}
-*/
 
 export type query = Reactive<{
     category: string[]
