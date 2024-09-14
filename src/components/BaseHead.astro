@@ -81,8 +81,15 @@ import Query from './query';
 import { ref } from 'vue';
 
 window.queryReady = ref(false); // queryReady flag
-window.query = Query(); // load query
-window.queryReady.value = true; // set queryReady to true
+
+/**
+ * wait for query to be ready, then set queryReady flag to true
+ */
+window.addEventListener('queryReady', () => {
+	window.queryReady.value = true;
+});
+
+window.query = Query(); // load query <- the queryReady event will be emitted when query is ready
 </script>
 
 <script is:inline define:vars={{ localeData, locale, posts, SITE_BASE }}>

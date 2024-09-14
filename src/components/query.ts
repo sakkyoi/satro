@@ -139,6 +139,8 @@ export default function Query() {
         stopCategoryAndTagWatcher = categoryAndTagWatcher.stop;
     }
 
+    window.dispatchEvent(new Event('queryReady'));
+
     return {
         query,
         parseQuery,

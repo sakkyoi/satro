@@ -8,7 +8,19 @@ import HighlightAPIWarning from './HighlightAPIWarning.vue';
 import Highlight from './Highlight.vue';
 import QueryFilter from './QueryFilter.vue';
 
-await until(window.queryReady).toMatch(v => v); // wait for the query to be ready
+/**
+ * This is a magic trick to wait for the query to be ready.
+ */
+await new Promise<void>(async (resolve) => {
+    if (!window.queryReady) {
+        window.addEventListener('queryReady', () => {
+            resolve();
+        });
+    } else {
+        if (!window.queryReady.value) await until(window.queryReady).toMatch(v => v); // wait for the query to be ready
+        resolve();
+    }
+});
 
 const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } = window.query;
 const images = await Object.fromEntries(await Promise.all(
