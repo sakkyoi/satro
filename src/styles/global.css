@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-	@apply bg-shironeri dark:bg-sumi text-keshizumi dark:!text-shironeri no-underline w-screen;
+	@apply bg-shironeri dark:bg-sumi text-keshizumi dark:!text-shironeri no-underline w-full;
 }
 
 a {
