@@ -118,6 +118,7 @@ export default function Query() {
 
     return {
         query,
+        watching,
         parseQuery,
         stringifyQuery,
         navigateWithQuery,
