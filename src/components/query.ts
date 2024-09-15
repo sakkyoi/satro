@@ -1,5 +1,5 @@
 import { navigate } from 'astro:transitions/client';
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import { watchIgnorable } from '@vueuse/core';
 
 import { atob, btoa } from './patchedB64';
@@ -8,19 +8,19 @@ import { getLocalString } from './clientLocaleData';
 import type { query } from './query.d';
 
 export default function Query() {
-    let watching = true;
+    let watching = ref(false);
 
     /**
      * stop all the watchers
      * @returns void
      */
-    const stopWatchers = () => watching = false;
+    const stopWatchers = () => watching.value = false;
 
     /**
      * start all the watchers
      * @returns void
      */
-    const startWatchers = () => watching = true;
+    const startWatchers = () => watching.value = true;
 
     const query: query = reactive({
         category: [],
@@ -30,22 +30,24 @@ export default function Query() {
 
     // when query is updated, update the url (if it's a url parsing, remember to use ignoreQueryUpdates)
     let { ignoreUpdates: ignoreQueryUpdates } = watchIgnorable(() => query, () => {
-        if (!watching) return;
+        if (!watching.value) return;
 
         stringifyQuery();
     }, { deep: true });
 
     // when category, tag, or keyword is updated, reset the page to 1 (if it's a url parasing, remember to use ignoreCategoryAndTagUpdates)
     let { ignoreUpdates: ignoreCategoryAndTagUpdates } = watchIgnorable(() => [query.category, query.tag, query.keyword], () => {
-        if (!watching) return;
+        if (!watching.value) return;
 
         query.page = 1;
     });
 
     // listen to popstate, pushstate (history navigation). parse query on change
     ['popstate', 'pushstate'].map(e => window.addEventListener(e, () => {
-        if (!watching) return;
+        if (!watching.value) return; // this might be not work
 
+        // TODO: the state push, pop are broken between query and page(a page with a anchor link)
+        // popstate, pushstate will early trigger than Query Unmount.
         parseQuery();
     }));
 
@@ -86,8 +88,9 @@ export default function Query() {
             // prevent page reset with ignore function
             ignoreQueryUpdates(() => ignoreCategoryAndTagUpdates(() => assignQuery(parse)));
         } catch {
-            alert(getLocalString('QUERY_STRING_BROKEN_ALERT'));
-            navigateWithQuery(query);
+            // TODO: the state push, pop are broken.
+            // alert(getLocalString('QUERY_STRING_BROKEN_ALERT'));
+            // navigateWithQuery(query);
             console.warn('invalid query string, but we reset the page for you');
         }
     }

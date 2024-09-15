@@ -103,12 +103,11 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    stopPageWatcherInQueryComponent(); // stop watching page changes
     stopWatchers(); // stop watching query changes
 }); // stop watching query changes
 
-const { ignoreUpdates: ignorePageUpdatesInQueryComponent, stop: stopPageWatcherInQueryComponent } = watchIgnorable(() => query.page, () => {
-    if (!watching) return;
+const { ignoreUpdates: ignorePageUpdatesInQueryComponent } = watchIgnorable(() => query.page, () => {
+    if (!watching.value) return;
 
     // wait for the page to be updated
     setTimeout(() => {

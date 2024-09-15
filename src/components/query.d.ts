@@ -1,4 +1,4 @@
-import type { Reactive } from 'vue';
+import type { Ref, Reactive } from 'vue';
 import type { IgnoredUpdater } from '@vueuse/core';
 
 export type query = Reactive<{
@@ -7,6 +7,7 @@ export type query = Reactive<{
     keyword?: string
     page: number
 }>;
+export type watching = Ref<boolean>;
 export type parseQuery = () => void;
 export type stringifyQuery = (replace?: boolean) => void;
 export type navigateWithQuery = (newQuery: query, target?: string) => void;
@@ -15,7 +16,7 @@ export type stopWatchers = () => void;
 
 export type QueryReturn = {
     query: query
-    watching: boolean
+    watching: watching
     parseQuery: parseQuery
     stringifyQuery: stringifyQuery
     navigateWithQuery: navigateWithQuery
