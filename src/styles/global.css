@@ -27,6 +27,10 @@
 		@apply flex items-center m-0 py-5;
 	}
 
+	.container-box {
+		@apply w-full px-[20px] xl:px-[300px] 2xl:px-[450px];
+	}
+
 	.scrollbar {
 		@apply
 		overflow-y-auto

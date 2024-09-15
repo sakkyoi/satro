@@ -16,7 +16,7 @@ const slug = Astro.params.slug;
 
 <Base title={ getLocalString('ARTICLE_PAGE_TITLE').replace('{title}', title).replace('{site_title}', SITE_TITLE) } description={ description }>
 	<Header />
-	<main class="w-full px-[20px] py-10 xl:px-[300px]">
+	<main class="container-box py-10">
 		<article>
 			<a class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 hover:underline focus:outline-none focus:underline dark:text-blue-500 cursor-pointer" onclick="history.back()">
 				<iconify-icon class="shrink-0" icon="ion:chevron-back" inline></iconify-icon>
