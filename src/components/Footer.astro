@@ -1,16 +1,35 @@
 ---
 import { getCollection } from 'astro:content';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const today = new Date();
 
-const links = await getCollection('footer');
+const footerElements = await getCollection('footer');
+
+const isLink = (el: any): el is { data: { type: 'link'; icon?: string; title: string; attributes: { href: string; target?: string } } } => el.data.type === 'link';
+const isScript = (el: any): el is { data: { type: 'script'; attributes: { src: string } } } => el.data.type === 'script';
+const isRelative = (el: any) => {
+    try {
+        new URL(el.data.attributes?.src);
+        return false;
+    } catch {
+        return true;
+    }
+}
 
 // render if have body
-for (const link of links) {
-    if (link.body !== '') {
-        const { Content } = await link.render();
+for (const el of footerElements) {
+    if (isLink(el) && el.body !== '') {
+        const { Content } = await el.render();
         // @ts-ignore
-        link.result = Content;
+        el.result = Content;
+    }
+
+    // read script file and set body if src is relative path
+    if (isScript(el) && isRelative(el)) {
+        const script = fs.readFileSync(path.resolve(`src/content/footer/${el.data.attributes.src}`), 'utf-8');
+        el.body = `${script}`;
     }
 }
 ---
@@ -34,35 +53,31 @@ for (const link of links) {
         <!-- Social Brands -->
         <div class="mt-3 space-x-2">
             {
-                links.filter(e => e.data.type === 'link').map((link) => (
-                    <span>
+                footerElements.filter(e => e.data.type === 'link').map((link) => (
+                    <a class="hs-tooltip size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" {...link.data.attributes}>
                         {
-                            // @ts-ignore
-                            link.result && (
-                                <a href={ link.data.url } target={ link.data.target }>
-                                    <!-- @ts-ignore -->
-                                    <link.result />
-                                </a>
+                            isLink(link) && link.data.icon ? (
+                                <iconify-icon class="flex items-center shrink-0 size-3.5" icon={ link.data.icon } inline></iconify-icon>
+                            ) : (
+                                <!-- @ts-ignore -->
+                                <span class="flex items-center"><link.result /></span>
                             )
-                        }
-                        {
-                            // @ts-ignore
-                            link.data.icon && !link.result && (
-                            <a class="hs-tooltip size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-500 hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ link.data.url } target={ link.data.target }>
-                                <iconify-icon class="shrink-0 size-3.5" icon={ link.data.icon } inline></iconify-icon>
-                            </a>
-                            )
-                        }
-                    </span>
+                        }  
+                        <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" role="tooltip">
+                            { link.data.name }
+                        </span>
+                    </a>
                 ))
             }
         </div>
         <!-- End Social Brands -->
     </div>
     <!-- End Grid -->
+
+    <!-- Scripts -->
     {
-        // @ts-ignore
-        links.filter(e => e.data.type === 'script').map((link) => <script is:inline set:html={ link.body } />)
+        footerElements.filter(e => e.data.type === 'script').map((link) => isScript(link) && !isRelative(link) ? <script is:inline {...link.data.attributes} /> : <script is:inline set:html={ link.body } />)
     }
+    <!-- End Scripts -->
 </footer>
 <!-- ========== END FOOTER ========== -->
