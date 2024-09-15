@@ -65,9 +65,6 @@ const getCollection = () => {
         result = result.filter((e: any) => e.tags?.includes(...query.tag!));
     }
 
-    // sort
-    result = result.sort((a: any , b: any) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
-
     if (query.keyword) {
         const fuse = new Fuse(result, {
             keys: [
@@ -82,6 +79,11 @@ const getCollection = () => {
 
         return fuse.search(query.keyword).map((e => Object.assign(e.item as any, { matches: e.matches })));
     }
+
+    // sort
+    result = result.sort((a , b) => (Date.parse(b.updatedDate) ?? Date.parse(b.pubDate)) - (Date.parse(a.updatedDate) ?? Date.parse(a.pubDate)));
+
+    console.log(result);
 
     return result;
 }
