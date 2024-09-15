@@ -3,11 +3,13 @@
  * link-out icon and target="_blank" for external linnk.
  */
 const props = Astro.props;
+
+const isExternal = new URL(props.href, Astro.site).hostname !== new URL(Astro.site!).hostname;
 ---
 
-<a {...props} target={ !props.href.startsWith("#") ? "_blank" : "" }>
+<a {...props} target={ isExternal ? "_blank" : "" }>
     <slot />
     {
-        !props.href.startsWith("#") ? <iconify-icon icon="akar-icons:link-out" class="ml-1">hello</iconify-icon> : null
+        isExternal ? <iconify-icon icon="akar-icons:link-out" class="ml-1">hello</iconify-icon> : null
     }
 </a>
