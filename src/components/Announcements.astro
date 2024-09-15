@@ -5,7 +5,7 @@ import Announcement from './Announcement.vue';
 const announcements = await getCollection('announcement');
 ---
 
-<div class="space-y-3">
+<div class="flex flex-col gap-y-3">
     
     {
         announcements.map((announcement: any) => (
