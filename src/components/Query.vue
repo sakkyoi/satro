@@ -83,8 +83,6 @@ const getCollection = () => {
     // sort
     result = result.sort((a , b) => (Date.parse(b.updatedDate) ?? Date.parse(b.pubDate)) - (Date.parse(a.updatedDate) ?? Date.parse(a.pubDate)));
 
-    console.log(result);
-
     return result;
 }
 
