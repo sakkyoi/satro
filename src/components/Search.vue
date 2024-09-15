@@ -74,8 +74,6 @@ const proceedSearch = () => {
     }, !filter.path ? window.SITE_BASE : undefined);
 
     search.value = '';
-
-    HSOverlay.close(HSOverlay.getInstance(searchModal?.value!) as HTMLElement);
 }
 
 const clearFilter = () => {
@@ -124,7 +122,7 @@ onMounted(async () => {
                         }}
                         <iconify-icon icon="pixelarticons:close" class="cursor-pointer ml-2" @click="clearFilter()"></iconify-icon>
                     </div>
-                    <input type="text" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-0 focus:ring-0 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" :placeholder="filter.path && filter.item ? getLocalString('SEARCH_PLACEHOLDER_SEARCHING_CATEGORY_OR_TAG_TIP').replace('{name}', filter.path === 'category' ? getLocalString('CATEGORY') : getLocalString('TAG')).replace('{keyword}', filter.item) : getLocalString('SEARCH_PLACEHOLDER')" autofocus v-model="search" @keypress="(e) => e.key === 'Enter' && proceedSearch()" />
+                    <input type="text" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-0 focus:ring-0 focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" :placeholder="filter.path && filter.item ? getLocalString('SEARCH_PLACEHOLDER_SEARCHING_CATEGORY_OR_TAG_TIP').replace('{name}', filter.path === 'category' ? getLocalString('CATEGORY') : getLocalString('TAG')).replace('{keyword}', filter.item) : getLocalString('SEARCH_PLACEHOLDER')" autofocus v-model="search" @keypress="(e) => { e.key === 'Enter' && proceedSearch();e.key === 'Enter' && HSOverlay.close(searchModal!) }" />
 
                     <ul class="flex flex-col border-t-[1px] pt-2" :set="result = getCollection()">
                         <span class="text-left text-xs opacity-40">{{ getLocalString('QUICK_SEARCH') }}</span>
