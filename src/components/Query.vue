@@ -22,7 +22,7 @@ await new Promise<void>(async (resolve) => {
     }
 });
 
-const { query, parseQuery, ignoreQueryUpdates, startWatchers, stopWatchers } = window.query;
+const { query, parseQuery, startWatchers, stopWatchers, watching } = window.query;
 const images = await Object.fromEntries(await Promise.all(
     Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
 ));
@@ -91,34 +91,25 @@ const getRelativeURL = (url: string) => {
 }
 
 // parse query on mounted
-onMounted(() => ignorePageUpdatesInQueryComponent(() => ignoreQueryUpdates(() => {
-    startStateWatcher(); // start watching state changes
+onMounted(() => {
     startWatchers(); // start watching query changes
-    parseQuery(); // parse query
+    ignorePageUpdatesInQueryComponent(() => parseQuery()); // parse query
 
     // i just want to show the skeleton for a while cause i already designed it :D
     // The data is not requested from the server asynchronously, so it's not necessary to show the skeleton.
     setTimeout(() => {
         loading.value = false;
     }, Math.random() * 1000); // random to make it more natural
-})));
+});
 
 onUnmounted(() => {
     stopPageWatcherInQueryComponent(); // stop watching page changes
     stopWatchers(); // stop watching query changes
-    stopStateWatcher(); // stop watching state changes
 }); // stop watching query changes
 
-// listen to popstate, pushstate (history navigation). parse query on change
-const startStateWatcher = () => {
-    ['popstate', 'pushstate'].map(e => window.addEventListener(e, () => parseQuery()));
-}
-
-const stopStateWatcher = () => {
-    ['popstate', 'pushstate'].map(e => window.removeEventListener(e, () => parseQuery()));
-}
-
 const { ignoreUpdates: ignorePageUpdatesInQueryComponent, stop: stopPageWatcherInQueryComponent } = watchIgnorable(() => query.page, () => {
+    if (!watching) return;
+
     // wait for the page to be updated
     setTimeout(() => {
         window.HSStaticMethods.autoInit();
