@@ -15,6 +15,7 @@ export type stopWatchers = () => void;
 
 export type QueryReturn = {
     query: query
+    watching: boolean
     parseQuery: parseQuery
     stringifyQuery: stringifyQuery
     navigateWithQuery: navigateWithQuery

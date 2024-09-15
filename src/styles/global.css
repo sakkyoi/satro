@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-	@apply bg-shironeri dark:bg-sumi text-keshizumi dark:!text-shironeri no-underline w-screen;
-}
-
-a {
-	@apply !no-underline;
-}
-
 @layer utilities {
 	.article-kbd {
 		@apply min-h-[30px] inline-flex justify-center items-center py-1 px-1.5 bg-white border border-gray-200 font-mono text-sm text-gray-800 rounded-md shadow-[0px_2px_0px_0px_rgba(0,0,0,0.08)] dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-200 dark:shadow-[0px_2px_0px_0px_rgba(255,255,255,0.1)];
@@ -34,6 +26,26 @@ a {
 	.article-headings {
 		@apply flex items-center m-0 py-5;
 	}
+
+	.scrollbar {
+		@apply
+		overflow-y-auto
+		[&::-webkit-scrollbar]:w-2
+		[&::-webkit-scrollbar-track]:rounded-full
+		[&::-webkit-scrollbar-track]:bg-gray-100
+		[&::-webkit-scrollbar-thumb]:rounded-full
+		[&::-webkit-scrollbar-thumb]:bg-gray-300
+		dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+		dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500;
+	}
+}
+
+body {
+	@apply bg-shironeri dark:bg-sumi text-keshizumi dark:!text-shironeri no-underline w-full max-h-[400px] scrollbar;
+}
+
+a {
+	@apply !no-underline;
 }
 
 /* Prose */

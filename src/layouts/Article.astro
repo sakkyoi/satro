@@ -153,7 +153,7 @@ import { HSStaticMethods, HSTooltip } from 'preline/preline';
  * code from https://preline.co/docs/clipboard.html#how-to-use
  */
 (function() {
-	window.addEventListener('load', () => {
+	document.addEventListener('astro:page-load', () => {
 		const $clipboards = document.querySelectorAll('.clipboard');
 
 		$clipboards.forEach((el) => {
