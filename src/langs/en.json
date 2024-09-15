@@ -38,7 +38,7 @@
     "SEARCH_PLACEHOLDER": "input keyword...",
     "QUICK_SEARCH": "Quick Search",
     "QUICK_SEARCH_NO_RESULT": "No result found",
-    "Close": "Close",
+    "CLOSE": "Close",
 
     "_COMMENT": "Filter Component",
     "FILTER": "Filter",

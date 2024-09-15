@@ -38,7 +38,7 @@
     "SEARCH_PLACEHOLDER": "輸入關鍵字...",
     "QUICK_SEARCH": "快速搜尋",
     "QUICK_SEARCH_NO_RESULT": "找不到結果",
-    "Close": "關閉",
+    "CLOSE": "關閉",
 
     "_COMMENT": "Filter Component",
     "FILTER": "篩選",
