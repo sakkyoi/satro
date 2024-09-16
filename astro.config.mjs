@@ -3,7 +3,8 @@ import { loadEnv } from 'vite';
 import vue from '@astrojs/vue';
 import expressiveCode from 'astro-expressive-code';
 import { expressiveCodePatcher } from './src/expressive-code-patcher';
-import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
+import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import rehypeSlug from 'rehype-slug';
@@ -20,7 +21,7 @@ const { SITE_URL } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 /** @type {import('rehype-expressive-code').RehypeExpressiveCodeOptions} */
 const rehypeExpressiveCodeOptions = {
     // You can add configuration options here
-    plugins: [pluginCollapsibleSections(), expressiveCodePatcher()],
+    plugins: [pluginCollapsibleSections(), pluginLineNumbers(), expressiveCodePatcher()],
     themes: ['dracula', 'solarized-light'],
 };
 
