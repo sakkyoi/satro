@@ -1,6 +1,6 @@
 # satro
 
-A ready to use, simple and functional static site generator developed with Astro.
+A ready-to-use, simple and functional static site generator developed with Astro.
 
 ## Installation and Usage
 
