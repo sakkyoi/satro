@@ -38,7 +38,8 @@ export default function Query() {
      * @returns void
      */
     const stringifyQuery = (replace: boolean = false) => {
-        navigate(`#${btoa(JSON.stringify(query))}`, { history: replace ? 'replace' : 'push' });
+        const queryString = btoa(JSON.stringify(query));
+        navigate(`#${queryString}`, { history: replace ? 'replace' : 'push' });
     }
 
     /**
@@ -90,7 +91,8 @@ export default function Query() {
             blockQueryUpdates(() => assignQuery(parse));
         } catch {
             alert(getLocalString('QUERY_STRING_BROKEN_ALERT'));
-            navigateWithQuery(query, "/");
+            blockQueryUpdates(() => assignQuery(query));
+            stringifyQuery(true);
             console.warn('invalid query string, but we reset the page for you');
         }
     }
