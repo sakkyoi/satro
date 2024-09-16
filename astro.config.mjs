@@ -9,6 +9,8 @@ import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import { scrollspyPatcher } from './src/scrollspy-patcher';
 import sitemap from '@astrojs/sitemap';
 
@@ -39,6 +41,7 @@ export default defineConfig({
     }), expressiveCode(rehypeExpressiveCodeOptions), mdx(), tailwind(), sitemap({})],
     markdown: {
         rehypePlugins: [
+            rehypeKatex,
             rehypeSlug,
             [
                 rehypeAutolinkHeadings,
@@ -62,5 +65,6 @@ export default defineConfig({
             ],
             scrollspyPatcher, // hey! put this after rehypeSlug and rehypeAutolinkHeadings
         ],
+        remarkPlugins: [remarkMath],
     },
 });
