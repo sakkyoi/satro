@@ -56,27 +56,3 @@ a {
 .prose {
 	@apply prose-keshizumi dark:prose-shironeri prose-img:article-img prose-code:article-code prose-blockquote:article-blockquote prose-a:article-link prose-kbd:article-kbd prose-headings:article-headings;
 }
-
-.article-section[depth='1'] {
-	@apply pb-16;
-}
-
-.article-section[depth='2'] {
-	@apply pb-8;
-}
-
-.article-section[depth='3'] {
-	@apply pb-8;
-}
-
-.article-section[depth='4'] {
-	@apply pb-4;
-}
-
-.article-section[depth='5'] {
-	@apply pb-4;
-}
-
-.article-section[depth='6'] {
-	@apply pb-2;
-}
