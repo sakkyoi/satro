@@ -22,7 +22,7 @@ await new Promise<void>(async (resolve) => {
     }
 });
 
-const { query, parseQuery, startWatchers, stopWatchers, watching } = window.query;
+const { query, parseQuery, startWatchers, stopWatchers } = window.query;
 const images = await Object.fromEntries(await Promise.all(
     Object.entries(import.meta.glob<typeof import("*.jpg")>(`../content/image/**/*`)).map(async ([key, image]) => [key, (await image()).default])
 ));
@@ -93,7 +93,7 @@ const getRelativeURL = (url: string) => {
 // parse query on mounted
 onMounted(() => {
     startWatchers(); // start watching query changes
-    ignorePageUpdatesInQueryComponent(() => parseQuery()); // parse query
+    ignorePageUpdates(() => parseQuery()); // parse query (with preventing page updates)
 
     // i just want to show the skeleton for a while cause i already designed it :D
     // The data is not requested from the server asynchronously, so it's not necessary to show the skeleton.
@@ -102,13 +102,9 @@ onMounted(() => {
     }, Math.random() * 1000); // random to make it more natural
 });
 
-onUnmounted(() => {
-    stopWatchers(); // stop watching query changes
-}); // stop watching query changes
+onUnmounted(() => stopWatchers()); // stop watching query changes
 
-const { ignoreUpdates: ignorePageUpdatesInQueryComponent } = watchIgnorable(() => query.page, () => {
-    if (!watching.value) return;
-
+const { ignoreUpdates: ignorePageUpdates } = watchIgnorable(() => query.page, () => {
     // wait for the page to be updated
     setTimeout(() => {
         window.HSStaticMethods.autoInit();

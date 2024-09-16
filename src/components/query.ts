@@ -1,6 +1,5 @@
 import { navigate } from 'astro:transitions/client';
-import { ref, reactive } from 'vue';
-import { watchIgnorable } from '@vueuse/core';
+import { ref, reactive, watch } from 'vue';
 
 import { atob, btoa } from './patchedB64';
 import { getLocalString } from './clientLocaleData';
@@ -8,65 +7,19 @@ import { getLocalString } from './clientLocaleData';
 import type { query } from './query.d';
 
 export default function Query() {
-    const watching = ref(false);
-    const locked = ref(false);
-
-    /**
-     * stop all the watchers
-     * @returns void
-     */
-    const stopWatchers = () => watching.value = false;
-
-    /**
-     * start all the watchers
-     * @returns void
-     */
+    const watching = ref(false); // whether the query is being watched
+    const locked = ref(false); // whether the query is locked (prevent updates)
     const startWatchers = () => watching.value = true;
+    const stopWatchers = () => watching.value = false;
+    const lock = () => locked.value = true;
+    const unlock = () => locked.value = false;
 
+    // store of the query data
     const query: query = reactive({
         category: [],
         tag: [],
         page: 1,
     });
-
-    // when query is updated, update the url (if it's a url parsing, remember to use ignoreQueryUpdates)
-    let { ignoreUpdates: ignoreQueryUpdates } = watchIgnorable(() => query, () => {
-        if (!watching.value || locked.value) return;
-
-        stringifyQuery();
-    }, { deep: true });
-
-    // when category, tag, or keyword is updated, reset the page to 1 (if it's a url parasing, remember to use ignoreCategoryAndTagUpdates)
-    let { ignoreUpdates: ignoreCategoryAndTagUpdates } = watchIgnorable(() => [query.category, query.tag, query.keyword], () => {
-        if (!watching.value || locked.value) return;
-
-        query.page = 1;
-    });
-
-    /**
-     * lock the query updates when the page is swapping
-     * this is to prevent the query updates when swapping between query and article
-     * popstate, pushstate will early trigger than Query Unmount.
-     * 
-     * this is a workaround!
-     * 
-     * TODO: swapping still not working properly if the article's url have hash.
-     */
-    document.addEventListener('astro:before-swap', () => {
-        locked.value = true;
-    });
-
-    /**
-     * listen to popstate, pushstate (history navigation). parse query on change
-     */
-    ['popstate', 'pushstate'].map(e => window.addEventListener(e, () => {
-        if (!watching.value || locked.value) {
-            locked.value = false; // unlock the query updates
-            return;
-        }
-
-        parseQuery();
-    }));
 
     /**
      * assign the new query to the current query
@@ -81,11 +34,42 @@ export default function Query() {
     }
 
     /**
-     * reset the query
+     * stringify the query and update the url
      * @returns void
      */
-    const resetQuery = () => {
-        assignQuery();
+    const stringifyQuery = (replace: boolean = false) => {
+        navigate(`#${btoa(JSON.stringify(query))}`, { history: replace ? 'replace' : 'push' });
+    }
+
+    /**
+     * watch the query updates, update query string
+     */
+    watch(() => query, () => {
+        if (!watching.value || locked.value) return;
+
+        stringifyQuery();
+    }, { deep: true });
+
+    /**
+     * watch category, tag, set the page to 1
+     */
+    watch(() => [query.category, query.tag], () => {
+        if (!watching.value || locked.value) {
+            unlock(); // unlock the query updates
+            return;
+        }
+    
+        query.page = 1;
+    }, { deep: true });
+
+    window.addEventListener('hashchange', () => {
+        if (!watching.value) return;
+        parseQuery();
+    });
+
+    const blockQueryUpdates = (fn: () => void) => {
+        lock(); // lock the query updates, unlock after category/tag watcher
+        fn();
     }
 
     /**
@@ -96,28 +80,19 @@ export default function Query() {
         const queryString = window.location.hash.substring(1);
         if (!queryString) {
             // reset the query if the query string is empty
-            ignoreQueryUpdates(() => ignoreCategoryAndTagUpdates(() => resetQuery()));
+            blockQueryUpdates(() => assignQuery());
             return;
         }
         
         try {
             const parse = JSON.parse(atob(window.location.hash.substring(1)));
             // prevent page reset with ignore function
-            ignoreQueryUpdates(() => ignoreCategoryAndTagUpdates(() => assignQuery(parse)));
+            blockQueryUpdates(() => assignQuery(parse));
         } catch {
             alert(getLocalString('QUERY_STRING_BROKEN_ALERT'));
-            navigateWithQuery(query);
+            navigateWithQuery(query, "/");
             console.warn('invalid query string, but we reset the page for you');
         }
-    }
-
-    // stringify the query and update the url
-    /**
-     * stringify the query and update the url
-     * @returns void
-     */
-    const stringifyQuery = (replace: boolean = false) => {
-        navigate(`#${btoa(JSON.stringify(query))}`, { history: replace ? 'replace' : 'push' });
     }
 
     /**
@@ -127,7 +102,7 @@ export default function Query() {
      */
     const navigateWithQuery = (newQuery: query, target?: string) => {
         // just ignore the query updates cause we want the page to be reset to 1
-        ignoreQueryUpdates(() => assignQuery(newQuery));
+        blockQueryUpdates(() => assignQuery(newQuery));
         
         if (target) navigate(target).then(() => stringifyQuery(true));
         else stringifyQuery();
@@ -137,13 +112,9 @@ export default function Query() {
 
     return {
         query,
-        watching,
-        locked,
         parseQuery,
-        stringifyQuery,
         navigateWithQuery,
         startWatchers,
         stopWatchers,
-        ignoreQueryUpdates,
     }
 }
