@@ -8,7 +8,8 @@ import { getLocalString } from './clientLocaleData';
 import type { query } from './query.d';
 
 export default function Query() {
-    let watching = ref(false);
+    const watching = ref(false);
+    const locked = ref(false);
 
     /**
      * stop all the watchers
@@ -30,24 +31,40 @@ export default function Query() {
 
     // when query is updated, update the url (if it's a url parsing, remember to use ignoreQueryUpdates)
     let { ignoreUpdates: ignoreQueryUpdates } = watchIgnorable(() => query, () => {
-        if (!watching.value) return;
+        if (!watching.value || locked.value) return;
 
         stringifyQuery();
     }, { deep: true });
 
     // when category, tag, or keyword is updated, reset the page to 1 (if it's a url parasing, remember to use ignoreCategoryAndTagUpdates)
     let { ignoreUpdates: ignoreCategoryAndTagUpdates } = watchIgnorable(() => [query.category, query.tag, query.keyword], () => {
-        if (!watching.value) return;
+        if (!watching.value || locked.value) return;
 
         query.page = 1;
     });
 
-    // listen to popstate, pushstate (history navigation). parse query on change
-    ['popstate', 'pushstate'].map(e => window.addEventListener(e, () => {
-        if (!watching.value) return; // this might be not work
+    /**
+     * lock the query updates when the page is swapping
+     * this is to prevent the query updates when swapping between query and article
+     * popstate, pushstate will early trigger than Query Unmount.
+     * 
+     * this is a workaround!
+     * 
+     * TODO: swapping still not working properly if the article's url have hash.
+     */
+    document.addEventListener('astro:before-swap', () => {
+        locked.value = true;
+    });
 
-        // TODO: the state push, pop are broken between query and page(a page with a anchor link)
-        // popstate, pushstate will early trigger than Query Unmount.
+    /**
+     * listen to popstate, pushstate (history navigation). parse query on change
+     */
+    ['popstate', 'pushstate'].map(e => window.addEventListener(e, () => {
+        if (!watching.value || locked.value) {
+            locked.value = false; // unlock the query updates
+            return;
+        }
+
         parseQuery();
     }));
 
@@ -88,9 +105,8 @@ export default function Query() {
             // prevent page reset with ignore function
             ignoreQueryUpdates(() => ignoreCategoryAndTagUpdates(() => assignQuery(parse)));
         } catch {
-            // TODO: the state push, pop are broken.
-            // alert(getLocalString('QUERY_STRING_BROKEN_ALERT'));
-            // navigateWithQuery(query);
+            alert(getLocalString('QUERY_STRING_BROKEN_ALERT'));
+            navigateWithQuery(query);
             console.warn('invalid query string, but we reset the page for you');
         }
     }
@@ -122,6 +138,7 @@ export default function Query() {
     return {
         query,
         watching,
+        locked,
         parseQuery,
         stringifyQuery,
         navigateWithQuery,

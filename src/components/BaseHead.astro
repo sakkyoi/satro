@@ -31,7 +31,7 @@ const thumbnail = Object.keys(thumbnails)[Math.floor(Math.random() * Object.keys
 
 const { title, description, image } = Astro.props;
 
-const posts = (await getCollection('article')).sort((a , b) => (b.data.updatedDate || b.data.pubDate).getTime() - (a.data.updatedDate || a.data.pubDate).getTime()).map((e: any) => Object.assign(e.data, { slug: e.slug }));
+const posts = (await getCollection('article')).sort((a: any, b: any) => (b.data.updatedDate || b.data.pubDate).getTime() - (a.data.updatedDate || a.data.pubDate).getTime()).map((e: any) => Object.assign(e.data, { slug: e.slug }));
 ---
 
 <!-- Global Metadata -->
