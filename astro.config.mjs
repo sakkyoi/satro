@@ -12,7 +12,6 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import { scrollspyPatcher } from './src/scrollspy-patcher';
-import sitemap from '@astrojs/sitemap';
 
 /**
  * Load environment variables by loadEnv
@@ -38,7 +37,7 @@ export default defineConfig({
             },
         },
         devtools: true,
-    }), expressiveCode(rehypeExpressiveCodeOptions), mdx(), tailwind(), sitemap({})],
+    }), expressiveCode(rehypeExpressiveCodeOptions), mdx(), tailwind()],
     markdown: {
         rehypePlugins: [
             rehypeKatex,
