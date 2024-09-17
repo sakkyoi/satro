@@ -77,6 +77,7 @@ const posts = (await getCollection('article')).sort((a: any, b: any) => (b.data.
 
 <script>
 import 'preline/preline'; // preline
+import './patchTOCLink'; // patch TOC link
 import 'iconify-icon'; // iconify web component
 import Query from './query';
 import { ref } from 'vue';
