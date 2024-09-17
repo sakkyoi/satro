@@ -51,7 +51,7 @@ export default defineConfig({
                         type: 'element',
                         tagName: 'iconify-icon',
                         properties: {
-                            className: 'w-[1rem] h-[1rem] absolute left-[-1rem]',
+                            className: 'w-[1rem] h-[1rem] pointer-events-none',
                             icon: 'solar:link-linear',
                             width: '1rem',
                             height: '1rem',
@@ -59,7 +59,7 @@ export default defineConfig({
                         },
                     }],
                     properties: {
-                        className: '!text-keshizumi hover:text-keshizumi dark:!text-shironeri dark:hover:text-keshizumi before:content-none after:content-none opacity-0 group-hover:opacity-80 relative flex items-center',
+                        className: '!text-keshizumi hover:text-keshizumi dark:!text-shironeri dark:hover:text-keshizumi before:content-none after:content-none opacity-0 group-hover:opacity-80 flex items-center ml-[-1rem]',
                     },
                 }
             ],
