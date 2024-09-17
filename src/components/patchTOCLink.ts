@@ -25,7 +25,7 @@ window.HSScrollspy.prototype.init = function () {
 		el.addEventListener('click', (evt) => {
 			evt.preventDefault();
 
-            const href = new URL((evt.target as HTMLLinkElement)?.href).hash;
+            const href = decodeURI(new URL((evt.target as HTMLLinkElement)?.href).hash);
             if (!href) return false;
 
             history.pushState({}, '', href);
