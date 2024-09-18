@@ -23,52 +23,83 @@ const slug = Astro.params.slug;
 				{ getLocalString('ARTICLE_PAGE_BACK') }
 			</a>
 			<div class="text-2xl font-bold md:text-3xl dark:text-white mt-3">{ title }</div>
-			<div class="flex items-center gap-x-5 mt-5">
-				<div class="flex gap-x-3">
+			<!-- Date Mobile -->
+			<div class="hs-tooltip [--placement:bottom] inline-block sm:hidden text-sm text-gray-800/80 dark:text-neutral-200/80">
+				{
+					updatedDate ? (
+						<span class="hs-tooltip-toggle pb-1">
+							{ getLocalString('ARTICLE_UPDATED_AT') } { updatedDate.toLocaleDateString(locale, {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							}) }
+						</span>
+
+						<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" role="tooltip">
+							{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							}) }
+						</span>
+					) : (
+						<span>
+							{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							}) }
+						</span>
+					)
+				}
+			</div>
+			<!-- End Date Mobile -->
+			<!-- Categories -->
+			<div class="flex flex-wrap gap-1.5 mt-2 items-center">
+				{
+					categories ? categories.map((category: string) => (
+						<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`category/${category}`, Astro.site) }>
+							{ category }
+						</a>
+					)) : (
+						<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`category/${ getLocalString('CATEGORY_UNCATEGORIZED') }`, Astro.site) }>
+							{ getLocalString('CATEGORY_UNCATEGORIZED') }
+						</a>
+					)
+				}
+				<!-- Date -->
+				<span class="hidden sm:inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm text-gray-800 dark:text-neutral-200">
 					{
-						categories ? categories.map((category: string) => (
-							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`category/${category}`, Astro.site) }>
-								{ category }
-							</a>
-						)) : (
-							<a class="inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href={ new URL(`category/${ getLocalString('CATEGORY_UNCATEGORIZED') }`, Astro.site) }>
-								{ getLocalString('CATEGORY_UNCATEGORIZED') }
-							</a>
+						updatedDate ? (
+							<span class="hs-tooltip-toggle pb-1">
+								{ getLocalString('ARTICLE_UPDATED_AT') } { updatedDate.toLocaleDateString(locale, {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								}) }
+							</span>
+
+							<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" role="tooltip">
+								{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								}) }
+							</span>
+						) : (
+							<span>
+								{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								}) }
+							</span>
 						)
 					}
-				</div>
-				<p class="text-xs sm:text-sm text-gray-800/80 dark:text-neutral-200/80">
-					<div class="hs-tooltip [--placement:bottom] inline-block">
-						{
-							updatedDate ? (
-								<span class="hs-tooltip-toggle pb-1">
-									{ getLocalString('ARTICLE_UPDATED_AT') } { updatedDate.toLocaleDateString(locale, {
-										year: 'numeric',
-										month: 'short',
-										day: 'numeric',
-									}) }
-								</span>
-
-								<span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity inline-block absolute invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded shadow-sm dark:bg-neutral-700" role="tooltip">
-									{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
-										year: 'numeric',
-										month: 'short',
-										day: 'numeric',
-									}) }
-								</span>
-							) : (
-								<span>
-									{ getLocalString('ARTICLE_PUBLISHED_AT') } { pubDate.toLocaleDateString(locale, {
-										year: 'numeric',
-										month: 'short',
-										day: 'numeric',
-									}) }
-								</span>
-							)
-						}
-					</div>
-				</p>
+				</span>
+				<!-- End Date -->
 			</div>
+			<!-- End Categories -->
 
 			<div class="flex">
 				<div id="contents" class="prose min-w-full pt-10">
