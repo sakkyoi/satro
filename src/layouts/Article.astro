@@ -10,11 +10,11 @@ import type { Props as Heading } from '../components/TableOfContents.astro';
 
 type Props = CollectionEntry<'article'>['data'] & Heading;
 
-const { title, description, pubDate, updatedDate, categories, tags, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, categories, tags, headings, heroImage } = Astro.props;
 const slug = Astro.params.slug;
 ---
 
-<Base title={ getLocalString('ARTICLE_PAGE_TITLE').replace('{title}', title).replace('{site_title}', SITE_TITLE) } description={ description }>
+<Base title={ getLocalString('ARTICLE_PAGE_TITLE').replace('{title}', title).replace('{site_title}', SITE_TITLE) } description={ description } image={ heroImage }>
 	<Header />
 	<main class="container-box py-10">
 		<article>

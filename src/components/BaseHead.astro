@@ -32,6 +32,12 @@ const thumbnail = Object.keys(thumbnails)[Math.floor(Math.random() * Object.keys
 
 const { title, description, image } = Astro.props;
 
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/content/image/**/*.{jpg,jpeg,png,gif,webp}');
+const imagePath = `/src/content/image/${image?.replace(/^\/|\/$/g, '')}`; // remove leading slashes
+if (image && !images[imagePath]) throw new Error(`Image not found: ${image}`);
+
+const imageSrc = (await images[imagePath]?.()).default.src;
+
 const posts = (await getCollection('article')).sort((a: any, b: any) => (b.data.updatedDate || b.data.pubDate).getTime() - (a.data.updatedDate || a.data.pubDate).getTime()).map((e: any) => Object.assign(e.data, { slug: e.slug }));
 ---
 
@@ -55,14 +61,14 @@ const posts = (await getCollection('article')).sort((a: any, b: any) => (b.data.
 <meta property="og:url" content={ Astro.url } />
 <meta property="og:title" content={ title } />
 <meta property="og:description" content={ description } />
-<meta property="og:image" content={ image ? new URL(image, Astro.url) : new URL(thumbnail, Astro.site) } />
+<meta property="og:image" content={ imageSrc ? new URL(imageSrc, Astro.url) : new URL(thumbnail, Astro.site) } />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={ Astro.url } />
 <meta property="twitter:title" content={ title } />
 <meta property="twitter:description" content={ description } />
-<meta property="twitter:image" content={ image ? new URL(image, Astro.url) : new URL(thumbnail, Astro.site) } />
+<meta property="twitter:image" content={ imageSrc ? new URL(imageSrc, Astro.url) : new URL(thumbnail, Astro.site) } />
 
 <!-- Sitemap -->
 <link rel="sitemap" href={ new URL("sitemap-index.xml", Astro.site).pathname } />
