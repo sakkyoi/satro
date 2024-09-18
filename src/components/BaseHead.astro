@@ -36,7 +36,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/content/image/
 const imagePath = `/src/content/image/${image?.replace(/^\/|\/$/g, '')}`; // remove leading slashes
 if (image && !images[imagePath]) throw new Error(`Image not found: ${image}`);
 
-const imageSrc = (await images[imagePath]?.()).default.src;
+const imageSrc = (await images[imagePath]?.())?.default.src;
 
 const posts = (await getCollection('article')).sort((a: any, b: any) => (b.data.updatedDate || b.data.pubDate).getTime() - (a.data.updatedDate || a.data.pubDate).getTime()).map((e: any) => Object.assign(e.data, { slug: e.slug }));
 ---
