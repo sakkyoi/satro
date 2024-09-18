@@ -56,3 +56,7 @@ a {
 .prose {
 	@apply prose-keshizumi dark:prose-shironeri prose-img:article-img prose-code:article-code prose-blockquote:article-blockquote prose-a:article-link prose-kbd:article-kbd prose-headings:article-headings;
 }
+
+.article-section {
+	@apply pt-5;
+}
