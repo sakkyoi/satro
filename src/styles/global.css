@@ -28,7 +28,7 @@
 	}
 
 	.container-box {
-		@apply w-full px-[20px] xl:px-[300px] 2xl:px-[450px];
+		@apply w-full px-[20px] xl:px-[300px] 3xl:px-[25%];
 	}
 
 	.scrollbar {

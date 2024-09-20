@@ -7,6 +7,9 @@ export default {
 	],
 	theme: {
 		extend: {
+			screens: {
+				'3xl': '1792px',
+			},
 			colors: {
 				'shironeri': '#fcfaf2', // light background, dark text
 				'sumi': '#1c1c1c', // dark background
