@@ -107,7 +107,7 @@ window.locale = locale;
 globalThis.posts = posts;
 
 // initialize theme localStorage
-if (!localStorage.theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) localStorage.hs_theme = 'dark';
+if (!localStorage.hs_theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) localStorage.hs_theme = 'dark';
 </script>
 
 <ViewTransitions />
