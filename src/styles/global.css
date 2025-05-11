@@ -27,6 +27,10 @@
 		@apply flex items-center m-0 py-5;
 	}
 
+	.article-mermaid {
+		@apply flex justify-center py-5 px-1.5;
+	}
+
 	.container-box {
 		@apply w-full px-[20px] xl:px-[300px] 3xl:px-[25%];
 	}
@@ -55,6 +59,10 @@ a {
 /* Prose */
 .prose {
 	@apply prose-keshizumi dark:prose-shironeri prose-img:article-img prose-code:article-code prose-blockquote:article-blockquote prose-a:article-link prose-kbd:article-kbd prose-headings:article-headings;
+
+	.mermaid {
+		@apply article-mermaid;
+	}
 }
 
 .article-section {
