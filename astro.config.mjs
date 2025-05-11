@@ -6,6 +6,7 @@ import { expressiveCodePatcher } from './src/expressive-code-patcher';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
 import mdx from '@astrojs/mdx';
+import rehypeMermaid from 'rehype-mermaid';
 import tailwind from '@astrojs/tailwind';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -63,6 +64,7 @@ export default defineConfig({
                 }
             ],
             scrollspyPatcher, // hey! put this after rehypeSlug and rehypeAutolinkHeadings
+            rehypeMermaid,
         ],
         remarkPlugins: [remarkMath],
     },
