@@ -176,6 +176,37 @@ const slug = Astro.params.slug;
 </Base>
 
 <script>
+/**
+ * This script is used to render mermaid diagrams in the article.
+ */
+import mermaid from "mermaid";
+
+mermaid.startOnLoad = false;
+
+const observe = new MutationObserver(() => {
+	const isDark = window.document.documentElement.classList.contains("dark");
+
+	document.querySelectorAll(".mermaid").forEach((el) => {
+		const code = el.getAttribute("codedata");
+		if (code) {
+			el.innerHTML = code;
+			el.removeAttribute("data-processed");
+
+			mermaid.init({
+				theme: isDark ? "dark" : "base",
+				startOnLoad: true,
+			}, el as HTMLElement);
+		}
+	});
+});
+
+observe.observe(window.document.documentElement, {
+	attributes: true,
+	attributeFilter: ["class"],
+});
+</script>
+
+<script>
 import ClipboardJS from "clipboard";
 import { HSStaticMethods, HSTooltip } from 'preline/preline';
 
